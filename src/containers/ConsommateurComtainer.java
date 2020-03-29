@@ -91,7 +91,8 @@ public class ConsommateurComtainer extends Application{
 	
 	public void logMessage(ACLMessage aclMessage) {
 		Platform.runLater(() -> {
-			observableList.add(aclMessage.getContent());
+			observableList.add(aclMessage.getContent() + ", " 
+							+ aclMessage.getSender().getName());
 		});
 	}
 } 

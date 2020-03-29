@@ -60,7 +60,15 @@ public class ConsommateurAgent extends GuiAgent {
 					System.out.println(aclMessage.getOntology());
 					System.out.println("------------------------------");
 					
-					gui.logMessage(aclMessage);
+					switch (aclMessage.getPerformative()) {
+					case ACLMessage.CONFIRM:
+						gui.logMessage(aclMessage);
+						break;
+
+					default:
+						break;
+					}
+					
 				}
 				else
 					block();
