@@ -47,7 +47,7 @@ public class AcheteurGui extends Application {
 		profileImpl.setParameter(ProfileImpl.MAIN_HOST, "localhost");
 		AgentContainer agentContainer = runtime.createAgentContainer(profileImpl);
 		AgentController agentController = agentContainer
-				.createNewAgent("ACHETEUR", "agents.AcheteurAgent", new Object[] {this});
+				.createNewAgent("Acheteur", "agents.AcheteurAgent", new Object[] {this});
 		
 		agentController.start();
 		agentContainer.start(); //Pas besoin

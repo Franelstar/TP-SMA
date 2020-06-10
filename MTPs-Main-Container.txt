@@ -1,1 +1,1 @@
-http://mbiaya:7778/acc
+http://debian:7778/acc

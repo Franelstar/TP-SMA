@@ -1,6 +1,5 @@
 package agents;
 
-import containers.ConsommateurComtainer;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
@@ -9,10 +8,11 @@ import jade.core.behaviours.TickerBehaviour;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
 public class ConsommateurAgent extends GuiAgent {
 	
-	private transient ConsommateurComtainer gui; //Interface graphique
+	private transient ConsommateurGUI gui; //Interface graphique
 	
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class ConsommateurAgent extends GuiAgent {
 	@Override
 	protected void setup() {
 		if(getArguments().length >=  1) {
-			gui = (ConsommateurComtainer) getArguments()[0];
+			gui = (ConsommateurGUI) getArguments()[0];
 			gui.setConsommateurAgent(this);
 		}
 		
@@ -49,7 +49,15 @@ public class ConsommateurAgent extends GuiAgent {
 			
 			@Override
 			public void action() {
-				ACLMessage aclMessage = receive();
+				//System.out.println("ici2");
+				MessageTemplate messageTemplate = 
+						MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.CONFIRM),
+								MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.INFORM),
+										MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.AGREE),
+												MessageTemplate.MatchPerformative(ACLMessage.REFUSE)))
+								);
+						
+				ACLMessage aclMessage = receive(messageTemplate);
 				if(aclMessage != null) {
 					System.out.println("----------------------------");
 					System.out.println("Reception du message");
@@ -63,6 +71,12 @@ public class ConsommateurAgent extends GuiAgent {
 					switch (aclMessage.getPerformative()) {
 					case ACLMessage.CONFIRM:
 						gui.logMessage(aclMessage);
+						break;
+						
+					case ACLMessage.INFORM:
+						System.out.println("ici1");
+						System.out.println(aclMessage.getContent());
+						gui.recevoirProposition(aclMessage);
 						break;
 
 					default:
@@ -144,10 +158,20 @@ public class ConsommateurAgent extends GuiAgent {
 	public void onGuiEvent(GuiEvent params) {
 		// TODO Auto-generated method stub
 		if(params.getType() == 1) {
-			String livre = params.getParameter(0).toString();
+			String article = params.getParameter(0).toString();
+			String prixMax = params.getParameter(1).toString();
+			String qnte = params.getParameter(2).toString();
 			ACLMessage aclMessage = new ACLMessage(ACLMessage.REQUEST);
-			aclMessage.setContent(livre);
-			aclMessage.addReceiver(new AID("ACHETEUR", AID.ISLOCALNAME));
+			aclMessage.setContent(article+"---"+prixMax+"---"+qnte);
+			aclMessage.addReceiver(new AID("Acheteur", AID.ISLOCALNAME));
+			send(aclMessage);
+		} else if(params.getType() == 2) {
+			String article = params.getParameter(0).toString();
+			String qnte = params.getParameter(1).toString();
+			String vendeur = params.getParameter(2).toString();
+			ACLMessage aclMessage = new ACLMessage(ACLMessage.CONFIRM);
+			aclMessage.setContent(article+"---"+qnte+"---"+vendeur);
+			aclMessage.addReceiver(new AID("Acheteur", AID.ISLOCALNAME));
 			send(aclMessage);
 		}
 	}
