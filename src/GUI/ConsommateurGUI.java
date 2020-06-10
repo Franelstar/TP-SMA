@@ -1,4 +1,4 @@
-package agents;
+package GUI;
 
 import jade.core.Runtime;
 
@@ -7,6 +7,7 @@ import jade.lang.acl.ACLMessage;
 
 import org.w3c.dom.css.CSS2Properties;
 
+import agents.ConsommateurAgent;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;

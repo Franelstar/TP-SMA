@@ -1,5 +1,6 @@
 package agents;
 
+import GUI.ConsommateurGUI;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;

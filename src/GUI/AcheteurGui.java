@@ -1,5 +1,6 @@
-package agents;
+package GUI;
 
+import agents.AcheteurAgent;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.lang.acl.ACLMessage;

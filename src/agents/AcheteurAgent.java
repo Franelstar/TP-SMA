@@ -3,6 +3,7 @@ package agents;
 import java.util.ArrayList;
 import java.util.List;
 
+import GUI.AcheteurGui;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.ParallelBehaviour;
